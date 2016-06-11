@@ -145,5 +145,9 @@ if __name__ == '__main__':
         for src in modules[trgt]:
             G.add_edge(src, trgt)
 
+    # Dump graph as json for consumption by d3
     with open('html/graph.json', 'w') as out:
         json.dump(json_graph.node_link_data(G), out, indent=4)
+
+    ts = nx.topological_sort(G)
+    print(ts)
