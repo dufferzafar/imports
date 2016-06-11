@@ -1,20 +1,6 @@
 import ast
 
 
-def file_import_modules(fpath):
-    """Get all modules imported by a single python file."""
-    with open(fpath, 'rb') as inp:
-        code = inp.read()
-
-    try:
-        ic = ImportChecker()
-        parsed = ast.parse(code)
-        ic.visit(parsed)
-    # Ignore SyntaxError in Python code.
-    except SyntaxError:
-        return []
-
-    return ic.modules
 
 
 class ImportChecker():
@@ -49,7 +35,4 @@ class ImportChecker():
 if __name__ == '__main__':
     import sys
 
-    modules = file_import_modules(sys.argv[1])
-    modules = [m[1] for m in modules]
 
-    print(modules)
