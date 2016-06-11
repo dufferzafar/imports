@@ -9,6 +9,7 @@ from networkx.readwrite import json_graph
 
 
 def camel_case(s):
+    """Check whether string is camel case."""
     return (s != s.lower() and s != s.upper())
 
 
