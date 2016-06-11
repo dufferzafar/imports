@@ -1,7 +1,11 @@
 import ast
-import imp
-import os
 import glob
+import imp
+import json
+import os
+
+import networkx as nx
+from networkx.readwrite import json_graph
 
 
 def camel_case(s):
@@ -134,3 +138,11 @@ if __name__ == '__main__':
             if m.startswith(module_path_to_name(src_path, project_root))
         ]
 
+    G = nx.DiGraph()
+    for trgt in modules:
+        G.add_node(trgt)
+        for src in modules[trgt]:
+            G.add_edge(src, trgt)
+
+    with open('html/graph.json', 'w') as out:
+        json.dump(json_graph.node_link_data(G), out, indent=4)
