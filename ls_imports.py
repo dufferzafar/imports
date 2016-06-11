@@ -1,6 +1,8 @@
 import ast
 
 
+def camel_case(s):
+    return (s != s.lower() and s != s.upper())
 
 
 class ImportChecker():
@@ -18,7 +20,15 @@ class ImportChecker():
     def visit_ImportFrom(self, node):
         """from a import b [as c]."""
         for alias in node.names:
-            name = (node.module or '') + '.' + alias.name
+            name = node.level * '.'
+            if node.module:
+                name += node.module
+                if not camel_case(alias.name):
+                    name += '.' + alias.name
+                # else:
+                    # print("Found CamelCased Alias: %s" % alias.name)
+            else:
+                name += alias.name
             self._modules.append((node.lineno + self._lineno, name))
 
     def visit(self, node):
